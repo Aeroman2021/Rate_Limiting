@@ -28,7 +28,6 @@ public class PersonController {
    @Autowired
    private PersonService personService;
 
-
    @PostMapping
    public ResponseEntity<Person> save(@RequestBody PersonDto personDto){
        Person result = personService.create(personDto);
@@ -41,12 +40,11 @@ public class PersonController {
        return new ResponseEntity<>(result,new HttpHeaders(),HttpStatus.OK);
    }
 
-    @GetMapping("get_person_by_id/{id}")
+    @GetMapping("/get_person_by_id/{id}")
     public ResponseEntity<PersonDto> findById(@PathVariable Long id){
         PersonDto result = personService.findPersonById(id);
-        return new ResponseEntity<>(result,new HttpHeaders(),HttpStatus.OK);
+        return new ResponseEntity<>(result,HttpStatus.OK);
     }
-
 
     @Operation(summary = "Get all Person", description = "fetch all persons")
     @ApiResponses(value = {
@@ -55,15 +53,10 @@ public class PersonController {
             @ApiResponse(responseCode = "401", description = "Unauthorized"),
             @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "404", description = "Not found")})
-    @GetMapping("get_all_persons/{page}/{size}")
+    @GetMapping("/get_all_persons/{page}/{size}")
     public ResponseEntity<List<PersonOutputDto>> findAll(@PathVariable int page, @PathVariable int size){
         List<PersonOutputDto> result = personService.findAll(page, size);
         return new ResponseEntity<>(result,new HttpHeaders(),HttpStatus.OK);
     }
-
-
-
-
-
 
 }
